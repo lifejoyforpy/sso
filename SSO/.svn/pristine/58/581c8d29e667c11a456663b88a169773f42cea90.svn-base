@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <connectionStrings>
+    <!--<add name="DefaultConnection" connectionString="Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\aspnet-SafeInspection-20170321125426.mdf;Initial Catalog=aspnet-SafeInspection-20170321125426;Integrated Security=True"
+      providerName="System.Data.SqlClient" />-->
+    <add name="OracleConnectionString" connectionString="User ID=MWMSADM;Password=MWMSADM123;Data Source=(DESCRIPTION = (ADDRESS_LIST= (ADDRESS = (PROTOCOL = TCP)(HOST = 10.17.100.116 )(PORT = 1521))) (CONNECT_DATA = (SERVICE_NAME =  S07WMS)))" providerName="System.Data.OracleClient"/>
+    <add name="SQLConnStr" connectionString="Data Source=10.17.100.207;Initial Catalog=vtri;User ID=ri;Password=ri;Integrated Security=True"/>
+  </connectionStrings>
+  <appSettings>
+    <add key="aspnet:UseTaskFriendlySynchronizationContext" value="true"/>
+    <!--<add key="WMS" value="user id=jack;data source=10.17.100.207/wms.vt;password=wms" />-->
+    <add key="WMS" value="user id=MWMSADM;data source=10.17.100.116/S07WMS;password=MWMSADM123"/>
+    <!--<add key="WMS" value="user id=btvmesprd;data source=10.22.21.7/mesprd;password=btvmesprd" />-->
+    <add key="RedisSession" value="180"/>
+    <add key="SSOIP" value=""/>
+  </appSettings>
+<startup><supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.5.2"/></startup></configuration>

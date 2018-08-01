@@ -1,0 +1,165 @@
+﻿@using SSOManger
+@{
+    /**/
+
+    ViewBag.Title = "Home Page";
+}
+
+@for (int i = 0; i < @ViewBag.MenuList.Count; i++)
+{
+
+
+    if (i <= @ViewBag.MenuList.Count - 3)
+    {
+<div class="row-fluid ">
+    <div class="span4 responsive" data-tablet="span6" data-desktop="span4">
+        <div class="dashboard-stat blue">
+            <div class="visual">
+                <i class="icon-comments"></i>
+            </div>
+            <div class="details">
+                <div class="number">
+                    Boe
+                </div>
+                <div class="desc">
+                    Application
+                </div>
+            </div>
+            <a class="more" href="@ViewBag.MenuList[i].Menu_Url">
+                @ViewBag.MenuList[i].Menu_Name <i class="m-icon-swapright m-icon-white"></i>
+            </a>
+        </div>
+
+    </div>
+    <div class="span4 responsive" data-tablet="span6" data-desktop="span4">
+        <div class="dashboard-stat blue">
+            <div class="visual">
+                <i class="icon-comments"></i>
+            </div>
+            <div class="details">
+                <div class="number">
+                    Boe
+                </div>
+                <div class="desc">
+                    Application
+                </div>
+            </div>
+            <a class="more" href="@ViewBag.MenuList[i+1].Menu_Url">
+                @ViewBag.MenuList[i+1].Menu_Name <i class="m-icon-swapright m-icon-white"></i>
+            </a>
+        </div>
+
+    </div>
+    <div class="span4 responsive" data-tablet="span6" data-desktop="span4">
+        <div class="dashboard-stat blue">
+            <div class="visual">
+                <i class="icon-comments"></i>
+            </div>
+            <div class="details">
+                <div class="number">
+                    Boe
+                </div>
+                <div class="desc">
+                    Application
+                </div>
+            </div>
+            <a class="more" href="@ViewBag.MenuList[i+2].Menu_Url">
+                @ViewBag.MenuList[i+2].Menu_Name <i class="m-icon-swapright m-icon-white"></i>
+            </a>
+        </div>
+
+    </div>
+</div>
+
+
+
+    }
+    else
+    {
+
+        if (i == @ViewBag.MenuList.Count - 2)
+        {
+
+
+
+        <div class="row-fluid ">
+            <div class="span4 responsive" data-tablet="span6" data-desktop="span4">
+                <div class="dashboard-stat blue">
+                    <div class="visual">
+                        <i class="icon-comments"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number">
+                            Boe
+                        </div>
+                        <div class="desc">
+                            Application
+                        </div>
+                    </div>
+                    <a class="more" href="@ViewBag.MenuList[i].Menu_Url">
+                        @ViewBag.MenuList[i].Menu_Name <i class="m-icon-swapright m-icon-white"></i>
+                    </a>
+                </div>
+
+            </div>
+            <div class="span4 responsive" data-tablet="span6" data-desktop="span4">
+                <div class="dashboard-stat blue">
+                    <div class="visual">
+                        <i class="icon-comments"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number">
+                            Boe
+                        </div>
+                        <div class="desc">
+                            Application
+                        </div>
+                    </div>
+                    <a class="more" href="@ViewBag.MenuList[i+1].Menu_Url">
+                        @ViewBag.MenuList[i+1].Menu_Name <i class="m-icon-swapright m-icon-white"></i>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+        }
+        else
+        {
+
+
+        <div class="row-fluid ">
+            <div class="span4 responsive" data-tablet="span6" data-desktop="span4">
+                <div class="dashboard-stat blue">
+                    <div class="visual">
+                        <i class="icon-comments"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number">
+                            Boe
+                        </div>
+                        <div class="desc">
+                            Application
+                        </div>
+                    </div>
+                    <a class="more" href="@ViewBag.MenuList[i].Menu_Url">
+                        @ViewBag.MenuList[i].Menu_Name <i class="m-icon-swapright m-icon-white"></i>
+                    </a>
+                </div>
+
+            </div>
+           
+        </div>
+
+
+
+        }
+
+    }
+    i += 2;
+
+
+
+
+
+}

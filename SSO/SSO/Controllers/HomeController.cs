@@ -1,0 +1,53 @@
+﻿using SSO.Filter;
+using SSOManger;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using Newtonsoft.Json;
+
+namespace SSO.Controllers
+{
+    [MyAuthorization]
+    public class HomeController : Controller
+    {
+        private static SSOManager _SSOManager;
+
+        public HomeController()
+        {
+            _SSOManager = new SSOManager();
+        }
+
+        //[MyAuthorization(Roles = "Admin")]
+        public ActionResult Index()
+        {
+            //string token = HttpContext.Session["User"].ToString();
+            UserSSOInfo info = _SSOManager.SSO_Token_IsExist();
+            List<MainMenu> menuelist = new List<MainMenu>();
+            //foreach (var item in info.RoleList)
+            //{
+            //    //取父菜单
+            //    List<Menu> tempmenue = item.MenuList.Where(x => x.ParentId == 0 && x.Menu_Type == 1).ToList();
+            //    //取并集
+            //    menuelist = menuelist.Union(tempmenue).ToList();
+            //}
+            ViewBag.MenuList = info.Mainlist;
+            ViewBag.User = HttpContext.Session["User"];
+            return View();
+        }
+
+        public ActionResult About()
+        {
+            ViewBag.Message = "Your application description page.";
+
+            return View();
+        }
+
+        public ActionResult Contact()
+        {
+            ViewBag.Message = "Your contact page.";
+            return View();
+        }
+    }
+}

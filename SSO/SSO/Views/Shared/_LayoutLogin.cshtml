@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/media/css");
+    <link rel="shortcut icon" href="~/media/image/favicon.ico" />
+</head>
+<body class="login">
+    <div>
+        @RenderBody()
+    </div>
+    @Scripts.Render("~/media/js")
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/vue.min.js"></script>
+    @RenderSection("scripts", required: false)
+    <script>
+    </script>
+</body>
+</html>

@@ -1,0 +1,286 @@
+﻿@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+<div class="logo">
+    <img src="media/image/boe_logo.png" alt="" />
+</div>
+
+<!-- END LOGO -->
+<!-- BEGIN LOGIN -->
+
+<div class="content">
+
+    <!-- BEGIN LOGIN FORM -->
+
+    <form class="form-vertical login-form" id="Login">
+
+        <h3 class="form-title">Login to your account</h3>
+        @Html.Hidden("ReturnUrl");
+
+        <div class="alert alert-error hide">
+
+            <button class="close" data-dismiss="alert"></button>
+
+            <span>Enter any username and password.</span>
+        </div>
+
+        <div class="control-group">
+
+            <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+
+            <label class="control-label visible-ie8 visible-ie9">Username</label>
+
+            <div class="controls">
+
+                <div class="input-icon left">
+
+                    <i class="icon-user"></i>
+
+                    <input class="m-wrap placeholder-no-fix" type="text" v-model="data.Username" placeholder="Username" name="Username" />
+                </div>
+            </div>
+        </div>
+
+        <div class="control-group">
+
+            <label class="control-label visible-ie8 visible-ie9">Password</label>
+
+            <div class="controls">
+
+                <div class="input-icon left">
+
+                    <i class="icon-lock"></i>
+
+                    <input class="m-wrap placeholder-no-fix" type="password" v-model="data.Password" placeholder="Password" name="Password" />
+                </div>
+            </div>
+            <br />
+            <div class="alert alert-danger alert-dismissable" v-show="show">
+              登录失败,请重试。
+            </div>
+        </div>
+
+        <div class="form-actions">
+
+            <label class="checkbox">
+                <input type="checkbox" name="remember" value="1" /> Remember me
+            </label>
+
+            <button type="submit" class="btn blue pull-right" ">
+                Login <i class="m-icon-swapright m-icon-white"></i>
+            </button>
+        </div>
+
+        <div class="forget-password">
+
+            <h4>Forgot your password ?</h4>
+            <p>
+                no worries, click <a href="javascript:;" class="" id="forget-password">here</a>
+
+                to reset your password.
+            </p>
+        </div>
+    </form>
+
+    <!-- END LOGIN FORM -->
+    <!-- BEGIN FORGOT PASSWORD FORM -->
+
+    <form class="form-vertical forget-form" action="index.html">
+
+        <h3 class="">Forget Password ?</h3>
+
+        <p>Enter your e-mail address below to reset your password.</p>
+
+        <div class="control-group">
+
+            <div class="controls">
+
+                <div class="input-icon left">
+
+                    <i class="icon-envelope"></i>
+
+                    <input class="m-wrap placeholder-no-fix" type="text" placeholder="Email" name="email" />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+
+            <button type="button" id="back-btn" class="btn">
+
+                <i class="m-icon-swapleft"></i> Back
+            </button>
+
+            <button type="submit" class="btn blue pull-right">
+
+                Submit <i class="m-icon-swapright m-icon-white"></i>
+            </button>
+        </div>
+    </form>
+
+    <!-- END FORGOT PASSWORD FORM -->
+    <!-- BEGIN REGISTRATION FORM -->
+    <!-- END REGISTRATION FORM -->
+</div>
+
+<!-- END LOGIN -->
+<!-- BEGIN COPYRIGHT -->
+
+<div class="copyright">
+    2018 &copy; BOE - Admin
+</div>
+@section scripts{
+    <script type="text/javascript">
+
+        jQuery(document).ready(function () {
+            App.init();
+
+            vm.init();
+        });
+        var vm = new Vue({
+            el: '#Login',
+            data: {
+                data: {
+                    Username: "",
+                    Password: "",
+                    ReturnUrl: ""
+                },
+                signal: false,
+                show: false
+            },
+            methods: {
+                //deng lu
+                logsys: function () {
+                    $.ajax({
+                        url: "/Login/SS0Login",
+                        type: 'post',
+                        data: vm.$data.data,
+                        dataType: 'json',
+                        success: function (data) {
+                           
+
+                            if (data.status == 0) {
+                                //登陆失败
+                                vm.$data.show=true
+                                //<label for="Password" class="help-inline help-small no-left-padding">This field is required.</label>
+                                return;
+                            }
+                            //console.log(data.redirect_url);
+                            if (data.redirect_url == "/Home/Index")
+                                window.location = '/Home/Index';
+                            vm.addtoken(data.entity, data.token, data.redirect_url);
+                            //
+                        } ,
+                        error: function () {
+                            //console.log("发生异常");
+                        }  
+                    });
+                },
+                writeCookie: function (url, token, redirect_url) {
+                    $.ajax({
+                        type: "GET",
+                        url: url,
+                        data: { 'token': token },
+                        dataType: "jsonp",
+                        jsonp: "callback",
+                        success: function (data) {
+                            //console.log(redirect_url);
+                            var temp = redirect_url.split('/')[0] + '//' + redirect_url.split('/')[2] + '/';
+                            console.log("temp:")
+                            console.log(temp)
+                            if (url === temp) {
+                                vm.$data.signal = true;
+                                window.location = redirect_url;
+                            }
+
+                        },
+                        error: function () {
+                            //alert("发生异常");
+                        }
+                    });
+                },
+
+                //对每个站点打令牌
+                addtoken: function (list, token, redirect_url) {
+                    var data = [];
+                    $.each(list, function (i, item) {
+                        //console.log(this);
+                        data.push(item);
+                        vm.writeCookie(item.Menu_Url, token, redirect_url);
+                    });
+                    //console.log(redirect_url);
+                    //if (!vm.$data.signal)
+                    //    window.location = '/Home/Index';
+                },
+                init: function () {
+                    vm.$data.data.ReturnUrl = $("#ReturnUrl").val();
+                    //console.info(vm.$data.data.ReturnUrl);
+                    $('#Login').validate({
+                        errorElement: 'label', //default input error message container
+                        errorClass: 'help-inline', // default input error message class
+                        focusInvalid: false, // do not focus the last invalid input
+                        rules: {
+                            Username: {
+                                required: true
+                            },
+                            Password: {
+                                required: true
+                            },
+                            remember: {
+                                required: false
+                            }
+
+                        },
+                        messages: {
+                            username: {
+                                required: "Username is required."
+                            },
+                            password: {
+                                required: "Password is required."
+                            }
+                        },
+
+                        invalidHandler: function (event, validator) { //display error alert on form submit
+                            $('.alert-error', $('.login-form')).show();
+                        },
+
+                        highlight: function (element) { // hightlight error inputs
+                            $(element)
+                                .closest('.control-group').addClass('error'); // set error class to the control group
+                        },
+
+                        success: function (label) {
+                            label.closest('.control-group').removeClass('error');
+                            label.remove();
+                        },
+
+                        errorPlacement: function (error, element) {
+                            error.addClass('help-small no-left-padding').insertAfter(element.closest('.input-icon'));
+                        },
+
+                        submitHandler: function (form) {
+                            //window.location.href = "index.html";
+                            //form.submit();
+                            console.info(this);
+                            vm.logsys();
+                        }
+                    });
+
+              
+
+                    $.backstretch([
+                        "media/image/bg/1.jpg",
+                        "media/image/bg/2.jpg",
+                        "media/image/bg/3.jpg",
+                        "media/image/bg/4.jpg"
+                    ], {
+                            fade: 1000,
+                            duration: 8000
+                        });
+                }
+
+            }
+        })
+    </script>
+}
